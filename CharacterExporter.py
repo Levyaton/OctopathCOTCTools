@@ -1,4 +1,5 @@
 # pip install pandas
+# pip install pandasql
 import pandas as pd
 from pandasql import sqldf
 
@@ -53,4 +54,5 @@ skillSelect = "SELECT cd.m_id" + generateSkillColumnsForSelect() + " FROM charDa
 test = "SELECT sd1.m_gametext Skill1 from charDataDB AS cd join skillNameDB AS sd1 on sd1.m_id = cd.Skill1"
 print(select)
 print(pysqldf(select))
+pysqldf(select).to_csv("characters.csv")
 
