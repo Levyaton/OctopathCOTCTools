@@ -1,6 +1,7 @@
 # pip install pandas
 # pip install pandasql
 import pandas as pd
+import argparse
 from pandasql import sqldf
 
 pysqldf = lambda q: sqldf(q, globals())
@@ -9,10 +10,19 @@ gameTextCharacterDatabase = "D:\Downloads\DataBase\GameText\SystemText\GameTextC
 charaPlayerDatabase = "D:\Downloads\DataBase\Character\CharaPlayer.csv"
 skillNameDatabase = "D:\Downloads\DataBase\GameText\SystemText\GameTextSkill.csv"
 skillIdDatabase = "D:\Downloads\DataBase\Skill\SkillID.csv"
-charNameDB = pd.read_csv(gameTextCharacterDatabase)
-charDataDB = pd.read_csv(charaPlayerDatabase)
-skillNameDB = pd.read_csv(skillNameDatabase)
-skillIdDB = pd.read_csv(skillIdDatabase)
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--gameTextCharacter", help="path to the GameTextCharacter.csv file, it included", default=gameTextCharacterDatabase)
+parser.add_argument("--charaPlayer", help="path to the CharaPlayer.csv file, it included", default=gameTextCharacterDatabase)
+parser.add_argument("--gameTextSkill", help="path to the GameTextSkill.csv file, it included", default=gameTextCharacterDatabase)
+parser.add_argument("--skillID", help="path to the SkillID.csv file, it included", default=gameTextCharacterDatabase)
+parser.add_argument("--destination", help="Name of the file that the result will be extracted to. File type included", default="characters.csv")
+args = parser.parse_args()
+
+charNameDB = pd.read_csv(args.gameTextCharacter)
+charDataDB = pd.read_csv(args.charaPlayer)
+skillNameDB = pd.read_csv(args.gameTextSkill)
+skillIdDB = pd.read_csv(args.skillID)
 maxSkillCount = 9
 
 charDataDB["formattedSkills"] = charDataDB['m_InfoCommandSkills'].str.replace("[", "").replace("]", "")
@@ -54,5 +64,7 @@ skillSelect = "SELECT cd.m_id" + generateSkillColumnsForSelect() + " FROM charDa
 test = "SELECT sd1.m_gametext Skill1 from charDataDB AS cd join skillNameDB AS sd1 on sd1.m_id = cd.Skill1"
 print(select)
 print(pysqldf(select))
-pysqldf(select).to_csv("characters.csv")
+pysqldf(select).to_csv(args.destination)
+
+
 
