@@ -42,9 +42,9 @@ class Traveller:
 
     def export(self):
         return "{\n\"name\" : \"" + self.name + "\"," \
-                "\n\"job\" : \"" + self.job + "\",\n" \
-                "\n\"commandSkills\" : [" + self.get_command_skills_exports() + "],\n" \
-                "\n\"passiveSkills\" : [" + self.get_passive_skills_exports() + "]\n}"
+                                                "\n\"job\" : \"" + self.job + "\",\n" \
+                                                                              "\n\"commandSkills\" : [" + self.get_command_skills_exports() + "],\n" \
+                                                                                                                                              "\n\"passiveSkills\" : [" + self.get_passive_skills_exports() + "]\n}"
 
     def __pickJob__(self, id):
         if id == 0:
@@ -95,7 +95,7 @@ class Skill:
         desciption = skillIdDF["m_Detail"]
         self.description = self.__get_formatted_description__(
             avaiidList=[i for i in extractColumnArrayValues(skillIdDF["m_Avails"]) if int(i) != 0],
-            description=extractColumnArrayValues(skillNameDB.loc[desciption] ["m_gametext"])[0],
+            description=extractColumnArrayValues(skillNameDB.loc[desciption]["m_gametext"])[0],
             owner=owner)
 
     def __find_unique_tokens__(self, input_list):
@@ -239,9 +239,8 @@ def getAllTravellers():
 def exportTravellers(travellers):
     json = "["
     for traveller in travellers:
-        json = json + "\n" +traveller.export() + ","
-    return json[:-1] + "\n]"
-
+        json = json + "\n" + traveller.export() + ","
+    return json[:-1] + "\n]".replace("\\", "").replace("/","")
 
 
 result = getAllTravellers()
