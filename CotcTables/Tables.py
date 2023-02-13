@@ -59,13 +59,18 @@ class Traveller:
 
 
 class Skill:
+    def __get_formatted_description__(self, skillIdDF, template, owner):
+        return template.replace("")
+
     def __init__(self, id, owner):
         self.id = id
         skillIdDF = skillIdDB.loc[id]
         nameId = skillIdDF["m_Name"]
         self.name = extractColumnArrayValues(skillNameDB.loc[[nameId], ["m_gametext"]].values[0])[0]
-        desciption = skillIdDF["m_Detail"]
-        self.description = extractColumnArrayValues(skillNameDB.loc[[desciption], ["m_gametext"]].values[0])[0]
+        desciption = skillIdDF[["m_Detail"]]
+        self.description = self.__get_formatted_description__(skillIdDF=skillIdDF,
+                                                              template=extractColumnArrayValues(skillNameDB.loc[[desciption], ["m_gametext"]].values[0])[0],
+                                                              owner=owner)
 
 # result = exportTable()
 # extractColumnArrayData(table=result, column_name="m_InfoCommandSkills", new_column_base_name="Skill")
