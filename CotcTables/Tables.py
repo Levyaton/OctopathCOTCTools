@@ -1,12 +1,13 @@
 import pandas as pd
 import re
+path = "D:\Downloads\DataBase"
 
-gameTextCharacterDatabase = "D:\Downloads\DataBase\GameText\SystemText\GameTextCharacter.csv"
-charaPlayerDatabase = "D:\Downloads\DataBase\Character\CharaPlayer.csv"
-skillNameDatabase = "D:\Downloads\DataBase\GameText\SystemText\GameTextSkill.csv"
-skillIdDatabase = "D:\Downloads\DataBase\Skill\SkillID.csv"
-skillAvailIdDatabase = "D:\Downloads\DataBase\Skill\SkillAvailID.csv"
-skillAilmentDatabase = "D:\Downloads\DataBase\Skill\SkillAilmentType.csv"
+gameTextCharacterDatabase =path + "\GameText\SystemText\GameTextCharacter.csv"
+charaPlayerDatabase = path + "\Character\CharaPlayer.csv"
+skillNameDatabase = path + "\GameText\SystemText\GameTextSkill.csv"
+skillIdDatabase = path + "\Skill\SkillID.csv"
+skillAvailIdDatabase = path + "\Skill\SkillAvailID.csv"
+skillAilmentDatabase = path + "\Skill\SkillAilmentType.csv"
 
 charNameDB = pd.read_csv(gameTextCharacterDatabase)
 
@@ -218,7 +219,7 @@ class Skill:
             target_type_id = skillAvailIdDB.loc[int(ids[index])]["m_TargetType"]
             target_type = self.__target_type_selector__(target_type_id)
             return description.replace(token, target_type)
-        return "Unknown skill mapping for the token: " + token
+        return description.replace(token, "Unknown skill mapping for the token: " + token)
 
 
 def getAllTravellers():
